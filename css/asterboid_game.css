@@ -1,0 +1,25 @@
+#canvas {
+  margin-left: auto;
+  margin-right: auto;
+
+}
+body {
+  font-family: 'PT Sans', sans-serif;
+}
+h1 {
+  text-align: center;
+}
+.score {
+  margin: 10px;
+  display: inline-block;
+  font-size: 20px;
+}
+.highScore {
+  margin: 10px;
+  display: inline-block;
+  font-size: 20px;
+}
+.content {
+  text-align: center;
+
+}
