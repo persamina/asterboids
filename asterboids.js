@@ -4,7 +4,9 @@ var Asterboid = require('./lib/asterboid.js');
 var Ship  = require('./lib/ship.js');
 var Bullet  = require('./lib/bullet.js');
 var Game = require('./lib/game.js');
-var GameView  = require('./lib/gameView.js');
+var GameView = require('./lib/gameView.js');
+var Node = require('./lib/node.js');
+var KDTree = require('./lib/kdTree.js');
 
 //Set to global window
 window.MovingObject = MovingObject;
@@ -14,6 +16,8 @@ window.Ship = Ship;
 window.Bullet = Bullet;
 window.Game = Game;
 window.GameView = GameView;
+window.Node = Node;
+window.KDTree = KDTree;
 
 
 //get a reference to the canvas
