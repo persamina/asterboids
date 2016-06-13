@@ -77,12 +77,13 @@
 	backgroundImg.onload = function () {
 	  ctx.drawImage(backgroundImg, 0, 0);
 	};
-	//http://www.jpl.nasa.gov/assets/images/content/tmp/home/missions_bg_image.jpg
-	backgroundImg.src = './img/background.jpg';
+	//http://opengameart.org/content/map-tile
+	backgroundImg.src = './img/grass.jpg';
+	//backgroundImg.src = './img/background.jpg';
 	//https://www.iconfinder.com/icons/1105413/animal_bird_brand_figure_ios_swift_icon#size=128
 	asterboidImg.src = './img/boid.png';
 	//https://www.iconfinder.com/icons/23670/blaster_fighter_rocket_space_spaceship_icon#size=128
-	shipImg.src = './img/ship.png'
+	shipImg.src = './img/plane.png'
 	var game = new Game(backgroundImg, asterboidImg, shipImg);
 	var gameView = new GameView(game, ctx);
 	gameView.start();
@@ -233,7 +234,7 @@
 	  this.asterboidImg = asterboidImg;
 	  this.neighborBoids = [];
 	  MovingObject.call(this, {game: game, pos: pos, vel: Util.randVec(), radius: Asterboid.RADIUS, color: Asterboid.COLOR});
-	  this.viewRadius = Asterboid.RADIUS*8;
+	  this.viewRadius = Asterboid.RADIUS*10;
 	  //in radians 2PI radians in 360 degrees
 	  this.sideViewAngle = 135 * 2*Math.PI/360;
 	};
@@ -248,16 +249,13 @@
 	  }
 	  if (otherObject instanceof Bullet)
 	  {
-	    //this.game.updateScore(true);
 	    this.game.remove(this);
 	    this.game.remove(otherObject);
-	  //Game.NUM_AsterboidS -= 2;
 	  }
 	};
 	Asterboid.prototype.calcVel = function ()
 	{
 	  this.neighborBoids = this.findNeighbors();
-	  //if (this.neighborBoids.length <1 ) { this.vel = Util.randVec(); return;}
 	  var Vel1 = this.flyToCenterV();
 	  var Vel2 = this.flyToKeepDist();
 	  var Vel3 = this.flyToMatchVel();
@@ -270,7 +268,7 @@
 	};
 	Asterboid.prototype.limitVelocity = function()
 	{
-	  var velLimit = 5;
+	  var velLimit = 4;
 	  var velMag = this.velMag();
 	  if (velMag > velLimit)
 	  {
@@ -310,8 +308,8 @@
 	    if (this.neighborBoids[i] == this) { continue; }
 	    if (this.neighborBoids[i].distanceApart(this) < 20)
 	    {
-	      vel[0] -= (this.neighborBoids[i].pos[0] - this.pos[0])/20;
-	      vel[1] -= (this.neighborBoids[i].pos[1] - this.pos[1])/20;
+	      vel[0] -= (this.neighborBoids[i].pos[0] - this.pos[0])/30;
+	      vel[1] -= (this.neighborBoids[i].pos[1] - this.pos[1])/30;
 	    }
 	  }
 	  return vel;
@@ -337,7 +335,6 @@
 	};
 	Asterboid.prototype.findNeighbors = function()
 	{
-	  //Can't return itself as a neighbor
 	  return this.game.kdTree.range(this);
 	};
 	Asterboid.prototype.draw = function(ctx) {
@@ -558,6 +555,9 @@
 	Game.prototype.draw = function(ctx)
 	{
 	  ctx.clearRect(0, 0, Game.DIM_X, Game.DIM_Y);
+	  var pat1 = ctx.createPattern(this.backgroundImg,'repeat');
+	  ctx.fillStyle = pat1;
+	  ctx.fillRect(0,0,800,600);
 	  ctx.drawImage(this.backgroundImg, 0, 0);
 	  var allObj = this.allObjects();
 	  for (var i = 0; i < allObj.length; i++)
@@ -582,15 +582,15 @@
 	};
 	Game.prototype.step = function()
 	{
-	  /*
-	  if(this.asterboids.length < 3)
+
+	  if(this.asterboids.length < 5)
 	  {
-	    for (var i = 0; i < 4; i++)
+	    for (var i = 0; i < 10; i++)
 	    {
 	      this.add(new Asterboid(this.randomPosition(), this, this.asterboidImg));
 	    }
 	  }
-	  */
+
 	  this.moveObjects();
 	  this.checkCollisions();
 	}
